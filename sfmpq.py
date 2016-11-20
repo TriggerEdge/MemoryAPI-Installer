@@ -9,18 +9,13 @@ if hasattr(sys, 'frozen'):
 else:
     SFmpq_DIR = os.path.dirname(unicode(__file__, sys.getfilesystemencoding()))
 
-if (ostype == "Windows"):
-    if SFmpq_DIR:
-        os.chdir(SFmpq_DIR)
-    try:
-        _SFmpq = windll.SFmpq
-        FOLDER = False
-    except:
-        FOLDER = True
-else:
-    print "Only supports windows, for now."
-    sys.exit(0)
-    
+if SFmpq_DIR:
+    os.chdir(SFmpq_DIR)
+try:
+    _SFmpq = windll.SFmpq
+    FOLDER = False
+except:
+    FOLDER = True
 os.chdir(cwd)
 
 class SFile:
