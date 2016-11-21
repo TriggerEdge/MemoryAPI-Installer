@@ -1,9 +1,4 @@
 
-
-function GetMapName takes nothing returns string
-    return triggerhappy_MapName
-endfunction
-
 function Char2Ascii takes string s returns integer
     local integer i= Ascii__Ints[StringHash(s) / 0x1F0748 + 0x3EA]
     if i == 47 and s == "\\" then
@@ -4845,7 +4840,7 @@ function RestoreCameraOffsets takes nothing returns nothing
     call SetCameraDefaultHeight(0,DefaultCameraHeight[0])
 endfunction
 
-function Init takes nothing returns nothing
+function MemoryHackInit takes nothing returns nothing
     local integer i
     call ForForce(bj_FORCE_PLAYER[0], I2C(8+C2I(function UnlockMemory)))
     set i = Memory[GetBytecodeAddress()/4]

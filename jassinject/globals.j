@@ -1,5 +1,3 @@
- 
-    string triggerhappy_MapName="Not set." // requires my preprocessor, not a memory hack
 
     hashtable MemoryHacks_RectData  = InitHashtable()
     hashtable MemoryHacks_HY        = InitHashtable()
