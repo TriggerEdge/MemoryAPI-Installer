@@ -2,6 +2,10 @@ library MemoryHacks
 
 //# MEMHAXFUNCTIONSMALL_START
 
+function GetMapName takes nothing returns string
+    return triggerhappy_MapName
+endfunction
+
 //# +nosemanticerror
 function Char2Ascii takes string s returns integer
 //# +nosemanticerror

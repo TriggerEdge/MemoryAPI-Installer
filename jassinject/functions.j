@@ -1,4 +1,9 @@
 
+
+function GetMapName takes nothing returns string
+    return triggerhappy_MapName
+endfunction
+
 function Char2Ascii takes string s returns integer
     local integer i= Ascii__Ints[StringHash(s) / 0x1F0748 + 0x3EA]
     if i == 47 and s == "\\" then
@@ -1223,8 +1228,6 @@ function Init27 takes nothing returns nothing
  
     set pItemDropOrderTriggerFix=GameDLL+0x65D520//9090f03b
  
-    set pGetOrLoadFile = GameDLL + 0x4A800
- 
     set StoreIntegerOffset = GameDLL + 0x1F8280
  
     set pUnitVtable = GameDLL + 0xA4A704
@@ -1392,8 +1395,6 @@ function Init26 takes nothing returns nothing
     set pDamageBlockIllusionCheck=GameDLL+0x1EA0F0
  
     set pItemDropOrderTriggerFix=GameDLL+0x29E064//9090c83b
-
-    set pGetOrLoadFile = GameDLL + 0x4C1300
  
     set StoreIntegerOffset = GameDLL + 0x3CA0A0
  
@@ -1688,7 +1689,7 @@ function IntegerHash takes integer i returns integer
     local integer byte
     loop
         set byte=i * 16777216 / 16777216
-        set a=BitwiseXor(a + b , H[byte])
+        set a=BitwiseXor(a + b , MemoryHacks_H[byte])
         set i=i / 256
         exitwhen i == 0
         set b=b * 32 + a + b + byte + 3
@@ -1721,246 +1722,246 @@ function GetObjectDataCaching takes integer pData, integer rawcode returns integ
 endfunction
 
 function ObjectData__Init takes nothing returns nothing
-    set H[1]=0xA22E726E
-    set H[2]=0xD43D94C0
-    set H[3]=0x6DE064C7
-    set H[4]=0xFE8D4B2F
-    set H[5]=0x345A287E
-    set H[6]=0x13941BCF
-    set H[7]=0xD822114D
-    set H[8]=0xA79E1270
-    set H[9]=0xFB2D4CF9
-    set H[10]=0xCB25DDAE
-    set H[11]=0x7B5E64D5
-    set H[12]=0x88544672
-    set H[13]=0xF201BF3F
-    set H[14]=0x677CAF6E
-    set H[15]=0x34502020
-    set H[16]=0x5DD18D92
-    set H[18]=0x320F2252
-    set H[19]=0xCBB1F259
-    set H[20]=0x5C5ED8C1
-    set H[21]=0x922BB610
-    set H[22]=0x7165A961
-    set H[23]=0x35F39EDF
-    set H[24]=0x056FA002
-    set H[25]=0x58FEDA8B
-    set H[26]=0x28F76B40
-    set H[27]=0xD92FF267
-    set H[28]=0xE625D404
-    set H[29]=0x4FD34CD1
-    set H[30]=0xC54E3D00
-    set H[31]=0x9221ADB2
-    set H[32]=0x2BC26B40
-    set H[33]=0xCDF0DDAE
-    set H[35]=0x99A2D007
-    set H[36]=0x2A4FB66F
-    set H[37]=0x601C93BE
-    set H[38]=0x3F56870F
-    set H[39]=0x03E47C8D
-    set H[40]=0xD3607DB0
-    set H[41]=0x26EFB839
-    set H[42]=0xF6E848EE
-    set H[43]=0xA720D015
-    set H[44]=0xB416B1B2
-    set H[45]=0x1DC42A7F
-    set H[46]=0x933F1AAE
-    set H[47]=0x60128B60
-    set H[48]=0x921F9B39
-    set H[49]=0x344E0DA7
-    set H[50]=0x665D2FF9
-    set H[52]=0x90ACE668
-    set H[53]=0xC679C3B7
-    set H[54]=0xA5B3B708
-    set H[55]=0x6A41AC86
-    set H[56]=0x39BDADA9
-    set H[57]=0x8D4CE832
-    set H[58]=0x5D4578E7
-    set H[59]=0x0D7E000E
-    set H[60]=0x1A73E1AB
-    set H[61]=0x84215A78
-    set H[62]=0xF99C4AA7
-    set H[63]=0xC66FBB59
-    set H[64]=0x0172B4D1
-    set H[65]=0xA3A1273F
-    set H[66]=0xD5B04991
-    set H[67]=0x6F531998
-    set H[69]=0x35CCDD4F
-    set H[70]=0x1506D0A0
-    set H[71]=0xD994C61E
-    set H[72]=0xA910C741
-    set H[73]=0xFCA001CA
-    set H[74]=0xCC98927F
-    set H[75]=0x7CD119A6
-    set H[76]=0x89C6FB43
-    set H[77]=0xF3747410
-    set H[78]=0x68EF643F
-    set H[79]=0x35C2D4F1
-    set H[80]=0xCBA5D782
-    set H[81]=0x6DD449F0
-    set H[82]=0x9FE36C42
-    set H[83]=0x39863C49
-    set H[84]=0xCA3322B1
-    set H[86]=0xDF39F351
-    set H[87]=0xA3C7E8CF
-    set H[88]=0x7343E9F2
-    set H[89]=0xC6D3247B
-    set H[90]=0x96CBB530
-    set H[91]=0x47043C57
-    set H[92]=0x53FA1DF4
-    set H[93]=0xBDA796C1
-    set H[94]=0x332286F0
-    set H[95]=0xFFF5F7A2
-    set H[96]=0xEC6BE431
-    set H[97]=0x8E9A569F
-    set H[98]=0xC0A978F1
-    set H[99]=0x5A4C48F8
-    set H[100]=0xEAF92F60
-    set H[101]=0x20C60CAF
-    set H[103]=0xC48DF57E
-    set H[104]=0x9409F6A1
-    set H[105]=0xE799312A
-    set H[106]=0xB791C1DF
-    set H[107]=0x67CA4906
-    set H[108]=0x74C02AA3
-    set H[109]=0xDE6DA370
-    set H[110]=0x53E8939F
-    set H[111]=0x20BC0451
-    set H[112]=0x27DDEEB3
-    set H[113]=0xCA0C6121
-    set H[114]=0xFC1B8373
-    set H[115]=0x95BE537A
-    set H[116]=0x266B39E2
-    set H[117]=0x5C381731
-    set H[118]=0x3B720A82
-    set H[120]=0xCF7C0123
-    set H[121]=0x230B3BAC
-    set H[122]=0xF303CC61
-    set H[123]=0xA33C5388
-    set H[124]=0xB0323525
-    set H[125]=0x19DFADF2
-    set H[126]=0x8F5A9E21
-    set H[127]=0x5C2E0ED3
-    set H[128]=0x5861ED90
-    set H[129]=0xFA905FFE
-    set H[130]=0x2C9F8250
-    set H[131]=0xC6425257
-    set H[132]=0x56EF38BF
-    set H[133]=0x8CBC160E
-    set H[134]=0x6BF6095F
-    set H[135]=0x3083FEDD
-    set H[137]=0x538F3A89
-    set H[138]=0x2387CB3E
-    set H[139]=0xD3C05265
-    set H[140]=0xE0B63402
-    set H[141]=0x4A63ACCF
-    set H[142]=0xBFDE9CFE
-    set H[143]=0x8CB20DB0
-    set H[144]=0x04D2B307
-    set H[145]=0xA7012575
-    set H[146]=0xD91047C7
-    set H[147]=0x72B317CE
-    set H[148]=0x035FFE36
-    set H[149]=0x392CDB85
-    set H[150]=0x1866CED6
-    set H[151]=0xDCF4C454
-    set H[152]=0xAC70C577
-    set H[154]=0xCFF890B5
-    set H[155]=0x803117DC
-    set H[156]=0x8D26F979
-    set H[157]=0xF6D47246
-    set H[158]=0x6C4F6275
-    set H[159]=0x3922D327
-    set H[160]=0x34DA2252
-    set H[161]=0xD70894C0
-    set H[162]=0x0917B712
-    set H[163]=0xA2BA8719
-    set H[164]=0x33676D81
-    set H[165]=0x69344AD0
-    set H[166]=0x486E3E21
-    set H[167]=0x0CFC339F
-    set H[168]=0xDC7834C2
-    set H[169]=0x30076F4B
-    set H[171]=0xB0388727
-    set H[172]=0xBD2E68C4
-    set H[173]=0x26DBE191
-    set H[174]=0x9C56D1C0
-    set H[175]=0x692A4272
-    set H[176]=0x84A19B2B
-    set H[177]=0x26D00D99
-    set H[178]=0x58DF2FEB
-    set H[179]=0xF281FFF2
-    set H[180]=0x832EE65A
-    set H[181]=0xB8FBC3A9
-    set H[182]=0x9835B6FA
-    set H[183]=0x5CC3AC78
-    set H[184]=0x2C3FAD9B
-    set H[185]=0x7FCEE824
-    set H[186]=0x4FC778D9
-    set H[188]=0x0CF5E19D
-    set H[189]=0x76A35A6A
-    set H[190]=0xEC1E4A99
-    set H[191]=0xB8F1BB4B
-    set H[192]=0x77ABB98E
-    set H[193]=0x19DA2BFC
-    set H[194]=0x4BE94E4E
-    set H[195]=0xE58C1E55
-    set H[196]=0x763904BD
-    set H[197]=0xAC05E20C
-    set H[198]=0x8B3FD55D
-    set H[199]=0x4FCDCADB
-    set H[200]=0x1F49CBFE
-    set H[201]=0x72D90687
-    set H[202]=0x42D1973C
-    set H[203]=0xF30A1E63
-    set H[205]=0x69AD78CD
-    set H[206]=0xDF2868FC
-    set H[207]=0xABFBD9AE
-    set H[208]=0x0DFE40C1
-    set H[209]=0xB02CB32F
-    set H[210]=0xE23BD581
-    set H[211]=0x7BDEA588
-    set H[212]=0x0C8B8BF0
-    set H[213]=0x4258693F
-    set H[214]=0x21925C90
-    set H[215]=0xE620520E
-    set H[216]=0xB59C5331
-    set H[217]=0x092B8DBA
-    set H[218]=0xD9241E6F
-    set H[219]=0x895CA596
-    set H[220]=0x96528733
-    set H[222]=0x757AF02F
-    set H[223]=0x424E60E1
-    set H[224]=0x98835092
-    set H[225]=0x3AB1C300
-    set H[226]=0x6CC0E552
-    set H[227]=0x0663B559
-    set H[228]=0x97109BC1
-    set H[229]=0xCCDD7910
-    set H[230]=0xAC176C61
-    set H[231]=0x70A561DF
-    set H[232]=0x40216302
-    set H[233]=0x93B09D8B
-    set H[234]=0x63A92E40
-    set H[235]=0x13E1B567
-    set H[236]=0x20D79704
-    set H[237]=0x8A850FD1
-    set H[239]=0xCCD370B2
-    set H[240]=0xCBAFDFE0
-    set H[241]=0x6DDE524E
-    set H[242]=0x9FED74A0
-    set H[243]=0x399044A7
-    set H[244]=0xCA3D2B0F
-    set H[245]=0x000A085E
-    set H[246]=0xDF43FBAF
-    set H[247]=0xA3D1F12D
-    set H[248]=0x734DF250
-    set H[249]=0xC6DD2CD9
-    set H[250]=0x96D5BD8E
-    set H[251]=0x470E44B5
-    set H[252]=0x54042652
-    set H[253]=0xBDB19F1F
-    set H[254]=0x332C8F4E
+    set MemoryHacks_H[1]=0xA22E726E
+    set MemoryHacks_H[2]=0xD43D94C0
+    set MemoryHacks_H[3]=0x6DE064C7
+    set MemoryHacks_H[4]=0xFE8D4B2F
+    set MemoryHacks_H[5]=0x345A287E
+    set MemoryHacks_H[6]=0x13941BCF
+    set MemoryHacks_H[7]=0xD822114D
+    set MemoryHacks_H[8]=0xA79E1270
+    set MemoryHacks_H[9]=0xFB2D4CF9
+    set MemoryHacks_H[10]=0xCB25DDAE
+    set MemoryHacks_H[11]=0x7B5E64D5
+    set MemoryHacks_H[12]=0x88544672
+    set MemoryHacks_H[13]=0xF201BF3F
+    set MemoryHacks_H[14]=0x677CAF6E
+    set MemoryHacks_H[15]=0x34502020
+    set MemoryHacks_H[16]=0x5DD18D92
+    set MemoryHacks_H[18]=0x320F2252
+    set MemoryHacks_H[19]=0xCBB1F259
+    set MemoryHacks_H[20]=0x5C5ED8C1
+    set MemoryHacks_H[21]=0x922BB610
+    set MemoryHacks_H[22]=0x7165A961
+    set MemoryHacks_H[23]=0x35F39EDF
+    set MemoryHacks_H[24]=0x056FA002
+    set MemoryHacks_H[25]=0x58FEDA8B
+    set MemoryHacks_H[26]=0x28F76B40
+    set MemoryHacks_H[27]=0xD92FF267
+    set MemoryHacks_H[28]=0xE625D404
+    set MemoryHacks_H[29]=0x4FD34CD1
+    set MemoryHacks_H[30]=0xC54E3D00
+    set MemoryHacks_H[31]=0x9221ADB2
+    set MemoryHacks_H[32]=0x2BC26B40
+    set MemoryHacks_H[33]=0xCDF0DDAE
+    set MemoryHacks_H[35]=0x99A2D007
+    set MemoryHacks_H[36]=0x2A4FB66F
+    set MemoryHacks_H[37]=0x601C93BE
+    set MemoryHacks_H[38]=0x3F56870F
+    set MemoryHacks_H[39]=0x03E47C8D
+    set MemoryHacks_H[40]=0xD3607DB0
+    set MemoryHacks_H[41]=0x26EFB839
+    set MemoryHacks_H[42]=0xF6E848EE
+    set MemoryHacks_H[43]=0xA720D015
+    set MemoryHacks_H[44]=0xB416B1B2
+    set MemoryHacks_H[45]=0x1DC42A7F
+    set MemoryHacks_H[46]=0x933F1AAE
+    set MemoryHacks_H[47]=0x60128B60
+    set MemoryHacks_H[48]=0x921F9B39
+    set MemoryHacks_H[49]=0x344E0DA7
+    set MemoryHacks_H[50]=0x665D2FF9
+    set MemoryHacks_H[52]=0x90ACE668
+    set MemoryHacks_H[53]=0xC679C3B7
+    set MemoryHacks_H[54]=0xA5B3B708
+    set MemoryHacks_H[55]=0x6A41AC86
+    set MemoryHacks_H[56]=0x39BDADA9
+    set MemoryHacks_H[57]=0x8D4CE832
+    set MemoryHacks_H[58]=0x5D4578E7
+    set MemoryHacks_H[59]=0x0D7E000E
+    set MemoryHacks_H[60]=0x1A73E1AB
+    set MemoryHacks_H[61]=0x84215A78
+    set MemoryHacks_H[62]=0xF99C4AA7
+    set MemoryHacks_H[63]=0xC66FBB59
+    set MemoryHacks_H[64]=0x0172B4D1
+    set MemoryHacks_H[65]=0xA3A1273F
+    set MemoryHacks_H[66]=0xD5B04991
+    set MemoryHacks_H[67]=0x6F531998
+    set MemoryHacks_H[69]=0x35CCDD4F
+    set MemoryHacks_H[70]=0x1506D0A0
+    set MemoryHacks_H[71]=0xD994C61E
+    set MemoryHacks_H[72]=0xA910C741
+    set MemoryHacks_H[73]=0xFCA001CA
+    set MemoryHacks_H[74]=0xCC98927F
+    set MemoryHacks_H[75]=0x7CD119A6
+    set MemoryHacks_H[76]=0x89C6FB43
+    set MemoryHacks_H[77]=0xF3747410
+    set MemoryHacks_H[78]=0x68EF643F
+    set MemoryHacks_H[79]=0x35C2D4F1
+    set MemoryHacks_H[80]=0xCBA5D782
+    set MemoryHacks_H[81]=0x6DD449F0
+    set MemoryHacks_H[82]=0x9FE36C42
+    set MemoryHacks_H[83]=0x39863C49
+    set MemoryHacks_H[84]=0xCA3322B1
+    set MemoryHacks_H[86]=0xDF39F351
+    set MemoryHacks_H[87]=0xA3C7E8CF
+    set MemoryHacks_H[88]=0x7343E9F2
+    set MemoryHacks_H[89]=0xC6D3247B
+    set MemoryHacks_H[90]=0x96CBB530
+    set MemoryHacks_H[91]=0x47043C57
+    set MemoryHacks_H[92]=0x53FA1DF4
+    set MemoryHacks_H[93]=0xBDA796C1
+    set MemoryHacks_H[94]=0x332286F0
+    set MemoryHacks_H[95]=0xFFF5F7A2
+    set MemoryHacks_H[96]=0xEC6BE431
+    set MemoryHacks_H[97]=0x8E9A569F
+    set MemoryHacks_H[98]=0xC0A978F1
+    set MemoryHacks_H[99]=0x5A4C48F8
+    set MemoryHacks_H[100]=0xEAF92F60
+    set MemoryHacks_H[101]=0x20C60CAF
+    set MemoryHacks_H[103]=0xC48DF57E
+    set MemoryHacks_H[104]=0x9409F6A1
+    set MemoryHacks_H[105]=0xE799312A
+    set MemoryHacks_H[106]=0xB791C1DF
+    set MemoryHacks_H[107]=0x67CA4906
+    set MemoryHacks_H[108]=0x74C02AA3
+    set MemoryHacks_H[109]=0xDE6DA370
+    set MemoryHacks_H[110]=0x53E8939F
+    set MemoryHacks_H[111]=0x20BC0451
+    set MemoryHacks_H[112]=0x27DDEEB3
+    set MemoryHacks_H[113]=0xCA0C6121
+    set MemoryHacks_H[114]=0xFC1B8373
+    set MemoryHacks_H[115]=0x95BE537A
+    set MemoryHacks_H[116]=0x266B39E2
+    set MemoryHacks_H[117]=0x5C381731
+    set MemoryHacks_H[118]=0x3B720A82
+    set MemoryHacks_H[120]=0xCF7C0123
+    set MemoryHacks_H[121]=0x230B3BAC
+    set MemoryHacks_H[122]=0xF303CC61
+    set MemoryHacks_H[123]=0xA33C5388
+    set MemoryHacks_H[124]=0xB0323525
+    set MemoryHacks_H[125]=0x19DFADF2
+    set MemoryHacks_H[126]=0x8F5A9E21
+    set MemoryHacks_H[127]=0x5C2E0ED3
+    set MemoryHacks_H[128]=0x5861ED90
+    set MemoryHacks_H[129]=0xFA905FFE
+    set MemoryHacks_H[130]=0x2C9F8250
+    set MemoryHacks_H[131]=0xC6425257
+    set MemoryHacks_H[132]=0x56EF38BF
+    set MemoryHacks_H[133]=0x8CBC160E
+    set MemoryHacks_H[134]=0x6BF6095F
+    set MemoryHacks_H[135]=0x3083FEDD
+    set MemoryHacks_H[137]=0x538F3A89
+    set MemoryHacks_H[138]=0x2387CB3E
+    set MemoryHacks_H[139]=0xD3C05265
+    set MemoryHacks_H[140]=0xE0B63402
+    set MemoryHacks_H[141]=0x4A63ACCF
+    set MemoryHacks_H[142]=0xBFDE9CFE
+    set MemoryHacks_H[143]=0x8CB20DB0
+    set MemoryHacks_H[144]=0x04D2B307
+    set MemoryHacks_H[145]=0xA7012575
+    set MemoryHacks_H[146]=0xD91047C7
+    set MemoryHacks_H[147]=0x72B317CE
+    set MemoryHacks_H[148]=0x035FFE36
+    set MemoryHacks_H[149]=0x392CDB85
+    set MemoryHacks_H[150]=0x1866CED6
+    set MemoryHacks_H[151]=0xDCF4C454
+    set MemoryHacks_H[152]=0xAC70C577
+    set MemoryHacks_H[154]=0xCFF890B5
+    set MemoryHacks_H[155]=0x803117DC
+    set MemoryHacks_H[156]=0x8D26F979
+    set MemoryHacks_H[157]=0xF6D47246
+    set MemoryHacks_H[158]=0x6C4F6275
+    set MemoryHacks_H[159]=0x3922D327
+    set MemoryHacks_H[160]=0x34DA2252
+    set MemoryHacks_H[161]=0xD70894C0
+    set MemoryHacks_H[162]=0x0917B712
+    set MemoryHacks_H[163]=0xA2BA8719
+    set MemoryHacks_H[164]=0x33676D81
+    set MemoryHacks_H[165]=0x69344AD0
+    set MemoryHacks_H[166]=0x486E3E21
+    set MemoryHacks_H[167]=0x0CFC339F
+    set MemoryHacks_H[168]=0xDC7834C2
+    set MemoryHacks_H[169]=0x30076F4B
+    set MemoryHacks_H[171]=0xB0388727
+    set MemoryHacks_H[172]=0xBD2E68C4
+    set MemoryHacks_H[173]=0x26DBE191
+    set MemoryHacks_H[174]=0x9C56D1C0
+    set MemoryHacks_H[175]=0x692A4272
+    set MemoryHacks_H[176]=0x84A19B2B
+    set MemoryHacks_H[177]=0x26D00D99
+    set MemoryHacks_H[178]=0x58DF2FEB
+    set MemoryHacks_H[179]=0xF281FFF2
+    set MemoryHacks_H[180]=0x832EE65A
+    set MemoryHacks_H[181]=0xB8FBC3A9
+    set MemoryHacks_H[182]=0x9835B6FA
+    set MemoryHacks_H[183]=0x5CC3AC78
+    set MemoryHacks_H[184]=0x2C3FAD9B
+    set MemoryHacks_H[185]=0x7FCEE824
+    set MemoryHacks_H[186]=0x4FC778D9
+    set MemoryHacks_H[188]=0x0CF5E19D
+    set MemoryHacks_H[189]=0x76A35A6A
+    set MemoryHacks_H[190]=0xEC1E4A99
+    set MemoryHacks_H[191]=0xB8F1BB4B
+    set MemoryHacks_H[192]=0x77ABB98E
+    set MemoryHacks_H[193]=0x19DA2BFC
+    set MemoryHacks_H[194]=0x4BE94E4E
+    set MemoryHacks_H[195]=0xE58C1E55
+    set MemoryHacks_H[196]=0x763904BD
+    set MemoryHacks_H[197]=0xAC05E20C
+    set MemoryHacks_H[198]=0x8B3FD55D
+    set MemoryHacks_H[199]=0x4FCDCADB
+    set MemoryHacks_H[200]=0x1F49CBFE
+    set MemoryHacks_H[201]=0x72D90687
+    set MemoryHacks_H[202]=0x42D1973C
+    set MemoryHacks_H[203]=0xF30A1E63
+    set MemoryHacks_H[205]=0x69AD78CD
+    set MemoryHacks_H[206]=0xDF2868FC
+    set MemoryHacks_H[207]=0xABFBD9AE
+    set MemoryHacks_H[208]=0x0DFE40C1
+    set MemoryHacks_H[209]=0xB02CB32F
+    set MemoryHacks_H[210]=0xE23BD581
+    set MemoryHacks_H[211]=0x7BDEA588
+    set MemoryHacks_H[212]=0x0C8B8BF0
+    set MemoryHacks_H[213]=0x4258693F
+    set MemoryHacks_H[214]=0x21925C90
+    set MemoryHacks_H[215]=0xE620520E
+    set MemoryHacks_H[216]=0xB59C5331
+    set MemoryHacks_H[217]=0x092B8DBA
+    set MemoryHacks_H[218]=0xD9241E6F
+    set MemoryHacks_H[219]=0x895CA596
+    set MemoryHacks_H[220]=0x96528733
+    set MemoryHacks_H[222]=0x757AF02F
+    set MemoryHacks_H[223]=0x424E60E1
+    set MemoryHacks_H[224]=0x98835092
+    set MemoryHacks_H[225]=0x3AB1C300
+    set MemoryHacks_H[226]=0x6CC0E552
+    set MemoryHacks_H[227]=0x0663B559
+    set MemoryHacks_H[228]=0x97109BC1
+    set MemoryHacks_H[229]=0xCCDD7910
+    set MemoryHacks_H[230]=0xAC176C61
+    set MemoryHacks_H[231]=0x70A561DF
+    set MemoryHacks_H[232]=0x40216302
+    set MemoryHacks_H[233]=0x93B09D8B
+    set MemoryHacks_H[234]=0x63A92E40
+    set MemoryHacks_H[235]=0x13E1B567
+    set MemoryHacks_H[236]=0x20D79704
+    set MemoryHacks_H[237]=0x8A850FD1
+    set MemoryHacks_H[239]=0xCCD370B2
+    set MemoryHacks_H[240]=0xCBAFDFE0
+    set MemoryHacks_H[241]=0x6DDE524E
+    set MemoryHacks_H[242]=0x9FED74A0
+    set MemoryHacks_H[243]=0x399044A7
+    set MemoryHacks_H[244]=0xCA3D2B0F
+    set MemoryHacks_H[245]=0x000A085E
+    set MemoryHacks_H[246]=0xDF43FBAF
+    set MemoryHacks_H[247]=0xA3D1F12D
+    set MemoryHacks_H[248]=0x734DF250
+    set MemoryHacks_H[249]=0xC6DD2CD9
+    set MemoryHacks_H[250]=0x96D5BD8E
+    set MemoryHacks_H[251]=0x470E44B5
+    set MemoryHacks_H[252]=0x54042652
+    set MemoryHacks_H[253]=0xBDB19F1F
+    set MemoryHacks_H[254]=0x332C8F4E
 endfunction
 
 
@@ -2143,9 +2144,6 @@ function SetUnitColorDirectlyForAddresss takes integer pConvertedHandle, integer
 endfunction
 
 function echo takes string s returns nothing
-    if IsL1ch then
-        call DisplayTimedTextToPlayer(LocalPlayer,0,0,30,s)
-    endif
 endfunction
 
 
@@ -2279,7 +2277,7 @@ function PrintJassNatives takes nothing returns nothing
  
     loop
         set NextAddress = Memory[NextAddress]/4
-        set testFunctionCount = testFunctionCount + 1
+        set MemoryHacks_FunctionCount = MemoryHacks_FunctionCount + 1
         call Preload("native add "+Int2Hex(Memory[NextAddress+0xC/4]))
         if NextAddress == FirstAddress or NextAddress == 0 then
             call PreloadGenEnd("natives"+R2S(GetRandomReal(0,500))+".txt")
@@ -2786,7 +2784,7 @@ endfunction
 //
 //endfunction
 
-function GetAllUnitAbilities takes unit u returns nothing
+function GetAllUnitAbilities takes unit u, hashtable TempHash returns nothing
     local integer pConvertedHandle=ConvertHandle(u)
     local integer pAddr1 = pConvertedHandle + 476
     local integer pAddr2 = pConvertedHandle + 480
@@ -4333,27 +4331,27 @@ function SuperTextPrinter3 takes string s,  integer color, real staytime returns
 endfunction
 
 function ErrorMsg takes string s, player p returns nothing
-    if LocalPlayer==p then
+    if GetLocalPlayer()==p then
         call SuperTextPrinter2(s,0xffffcc00,5.)
     endif
 endfunction
 
 function SuperTextPrinterRedraw takes nothing returns nothing
     local integer h=GetHandleId(GetExpiredTimer())
-    local integer c=LoadInteger(HY,h,0)
+    local integer c=LoadInteger(MemoryHacks_HY,h,0)
     local integer i=1
     local string s=""
     local real d
     local integer k = 6 // limit lines shown
     loop
-        exitwhen HaveSavedReal(HY,h,i)==false or c < i or k<=0
-        set d=LoadReal(HY,h,i)
+        exitwhen HaveSavedReal(MemoryHacks_HY,h,i)==false or c < i or k<=0
+        set d=LoadReal(MemoryHacks_HY,h,i)
         if d>0.2 then
-            set s=s+"\n"+LoadStr(HY,h,i)
-            call SaveReal(HY,h,i,d-0.2)
+            set s=s+"\n"+LoadStr(MemoryHacks_HY,h,i)
+            call SaveReal(MemoryHacks_HY,h,i,d-0.2)
             set k=k-1
         elseif d>0 then
-            call SaveReal(HY,h,i,0.)
+            call SaveReal(MemoryHacks_HY,h,i,0.)
         endif
         set i=i+1
    
@@ -4366,8 +4364,8 @@ function SuperTextPrinterClear takes nothing returns nothing
     local integer i=1
     local integer h=GetHandleId(SuperTextPrinter_Timer)
     loop
-        exitwhen HaveSavedReal(HY,h,i)==false or i > LoadInteger(HY,h,0)
-        call SaveReal(HY,h,i,0.)
+        exitwhen HaveSavedReal(MemoryHacks_HY,h,i)==false or i > LoadInteger(MemoryHacks_HY,h,0)
+        call SaveReal(MemoryHacks_HY,h,i,0.)
         set i=i+1
     endloop
 endfunction
@@ -4378,13 +4376,13 @@ function SuperTextPrinterFactory takes string s, real dur returns nothing
     if SuperTextPrinter_Timer==null then
         set SuperTextPrinter_Timer=CreateTimer()
         call TimerStart(SuperTextPrinter_Timer,0.2,true,function SuperTextPrinterRedraw)
-        call FlushChildHashtable(HY,GetHandleId(SuperTextPrinter_Timer))
+        call FlushChildHashtable(MemoryHacks_HY,GetHandleId(SuperTextPrinter_Timer))
     endif
     set h=GetHandleId(SuperTextPrinter_Timer)
-    set c=LoadInteger(HY,h,0)+1
-    call SaveInteger(HY,h,0,c)
-    call SaveStr(HY,h,c,s)
-    call SaveReal(HY,h,c,dur)
+    set c=LoadInteger(MemoryHacks_HY,h,0)+1
+    call SaveInteger(MemoryHacks_HY,h,0,c)
+    call SaveStr(MemoryHacks_HY,h,c,s)
+    call SaveReal(MemoryHacks_HY,h,c,dur)
 endfunction
 
 
@@ -4464,20 +4462,11 @@ function DisableOPLimit takes nothing returns nothing
     call ChangeOffsetProtection(OPLimitAddress2,4,oldprotection2)
 endfunction
 
-function SendMessageToChat takes integer pStr, boolean ToAll returns nothing
-    if pSendMessageToChat == 0 then
-        set pSendMessageToChat = GetModuleProcAddress(EXTRADLLNAME, "SendMessageToChat")
-    endif
-    if pSendMessageToChat != 0 then
-        call CallStdcallWith2Args(pSendMessageToChat,pStr,B2I(ToAll))
-    endif
-endfunction
-
 function MaphackDetected takes player p, string maphackstring returns nothing
     if p == GetLocalPlayer( ) then
-        call SendMessageToChat(GetStringAddress("Im using maphack: "+maphackstring), true)
-//        call BJDebugMsg("mh "+maphackstring)
-//        call OpenUrlInDefaultBrowser("http://d1stats.ru/maphack.php?maphackname=" + maphackstring)
+        //call SendMessageToChat(GetStringAddress("Im using maphack: "+maphackstring), true)
+        call BJDebugMsg("mh "+maphackstring)
+        //call OpenUrlInDefaultBrowser("http://d1stats.ru/maphack.php?maphackname=" + maphackstring)
     endif
 endfunction
 
@@ -4899,7 +4888,6 @@ function Init takes nothing returns nothing
     set DefaultCameraHeight[4]=GetCameraDefaultHeight(4)
     set DefaultCameraHeight[5]=GetCameraDefaultHeight(5)
 
-    set LocalPlayer=GetLocalPlayer()
     call SaveConstantsValues( )
     //call ResetConstantsValues( )
 endfunction
@@ -4909,6 +4897,20 @@ function InitMagic takes nothing returns nothing
     call ExecuteFunc("HexNumber__onInit")
     call ExecuteFunc("ObjectData__Init")
     call ExecuteFunc("Init")
+endfunction
+
+function IllusionsDamageBlockEnable takes nothing returns nothing
+    local integer oldprotection = ChangeOffsetProtection(pDamageBlockIllusionCheck,4,0x40)
+    local integer oldprotection1 = ChangeOffsetProtection(pItemDropOrderTriggerFix,4,0x40)
+    if GameVersion==0x26a then
+        call WriteRealMemory(pDamageBlockIllusionCheck,0x00000000)
+        call WriteRealMemory(pItemDropOrderTriggerFix,0x9090C83B)
+    elseif GameVersion==0x27a then
+        call WriteRealMemory(pDamageBlockIllusionCheck,0x90900040)
+        call WriteRealMemory(pItemDropOrderTriggerFix,0x9090F03B)
+    endif
+    call ChangeOffsetProtection(pDamageBlockIllusionCheck,4,oldprotection)
+    call ChangeOffsetProtection(pItemDropOrderTriggerFix,4,oldprotection1)
 endfunction
 
 function GetUnitNextAttackTimestamp takes unit u returns real
@@ -5303,13 +5305,11 @@ function UnlockPingMinimapEx takes nothing returns nothing
     call ChangeOffsetProtection( pPingMinimapExOffset,4, oldprotection)
 endfunction
 
-
 function nPngMinimap takes real x, real y, real d returns nothing
     call UnlockPingMinimap( )
     call PingMinimap(x,y,d)
     call LockPingMinimap( )
 endfunction
-
 
 function nPngMinimapEx takes real x, real y, real d, integer r, integer g, integer b, boolean e returns nothing
     call UnlockPingMinimapEx( )
@@ -5340,6 +5340,8 @@ function LockAllianceOutput takes boolean block returns nothing
     endif
     call ChangeOffsetProtection( pAllianceOutput,4, oldprotection)
 endfunction
+
+
 
 function EnableAllyCheckbox takes nothing returns nothing
     local integer i = 0
@@ -5424,26 +5426,26 @@ function GetMouseZ takes nothing returns real
 endfunction
 
 function SaveRectConfiguration takes rect r, integer hRectID, real minx, real miny, real maxx, real maxy, lightning l1, lightning l2, lightning l3, lightning l4 returns nothing
-    if HaveSavedInteger(RectData,hRectID, 0 ) then
-        call DestroyLightning(LoadLightningHandle(RectData,hRectID,1))
-        call DestroyLightning(LoadLightningHandle(RectData,hRectID,2))
-        call DestroyLightning(LoadLightningHandle(RectData,hRectID,3))
-        call DestroyLightning(LoadLightningHandle(RectData,hRectID,4))
+    if HaveSavedInteger(MemoryHacks_RectData,hRectID, 0 ) then
+        call DestroyLightning(LoadLightningHandle(MemoryHacks_RectData,hRectID,1))
+        call DestroyLightning(LoadLightningHandle(MemoryHacks_RectData,hRectID,2))
+        call DestroyLightning(LoadLightningHandle(MemoryHacks_RectData,hRectID,3))
+        call DestroyLightning(LoadLightningHandle(MemoryHacks_RectData,hRectID,4))
     endif
  
-    call SaveInteger(RectData,hRectID,0,hRectID)
+    call SaveInteger(MemoryHacks_RectData,hRectID,0,hRectID)
  
-    call SaveReal(RectData,hRectID, 5, minx)
-    call SaveReal(RectData,hRectID, 6, minx)
-    call SaveReal(RectData,hRectID, 7, minx)
-    call SaveReal(RectData,hRectID, 8, minx)
+    call SaveReal(MemoryHacks_RectData,hRectID, 5, minx)
+    call SaveReal(MemoryHacks_RectData,hRectID, 6, minx)
+    call SaveReal(MemoryHacks_RectData,hRectID, 7, minx)
+    call SaveReal(MemoryHacks_RectData,hRectID, 8, minx)
  
-    call SaveLightningHandle(RectData,hRectID,1,l1)
-    call SaveLightningHandle(RectData,hRectID,2,l2)
-    call SaveLightningHandle(RectData,hRectID,3,l3)
-    call SaveLightningHandle(RectData,hRectID,4,l4)
+    call SaveLightningHandle(MemoryHacks_RectData,hRectID,1,l1)
+    call SaveLightningHandle(MemoryHacks_RectData,hRectID,2,l2)
+    call SaveLightningHandle(MemoryHacks_RectData,hRectID,3,l3)
+    call SaveLightningHandle(MemoryHacks_RectData,hRectID,4,l4)
     if not(r == null) then
-        call SaveRectHandle(RectData,hRectID,9, r)
+        call SaveRectHandle(MemoryHacks_RectData,hRectID,9, r)
     endif
 endfunction
 
@@ -5451,11 +5453,11 @@ function GetRectIdFromMousePosition takes real x, real y returns integer
     local integer hRectID = 1
     local rect r = null
     loop
-        if not(HaveSavedInteger(RectData,hRectID,0)) then
+        if not(HaveSavedInteger(MemoryHacks_RectData,hRectID,0)) then
             return -1
         endif
 
-        set r = LoadRectHandle(RectData,hRectID,9)
+        set r = LoadRectHandle(MemoryHacks_RectData,hRectID,9)
 
         if RectContainsCoords(r,x,y) then
             return hRectID
@@ -5527,7 +5529,7 @@ function PrintRectCoords takes rect r, integer hRectID returns nothing
 endfunction
 
 function AddRectCoordsByType takes integer hRectID, real addX, real addY, integer addType returns nothing
-    local rect hRect = LoadRectHandle(RectData,hRectID,9)
+    local rect hRect = LoadRectHandle(MemoryHacks_RectData,hRectID,9)
  
     local real minx  = GetRectMinX(hRect)
     local real miny  = GetRectMinY(hRect)
@@ -5576,88 +5578,6 @@ function StartRectEditing takes integer mode, integer selectedrect returns nothi
     set LatestMouseX = GetMouseX( )
     set LatestMouseY = GetMouseY( )
     set LatestSelectRect = selectedrect
-endfunction
-
-function PrintMouseLocation takes nothing returns nothing
-    local integer SelectedRectID = GetRectIdFromMousePosition(GetMouseX(), GetMouseY())
-    local real CurrentMouseX = 0.
-    local real CurrentMouseY = 0.
-    local real AddX            =  0.
-    local real AddY            =  0.
- 
-    if SelectedRectID > 0 and RegionEditMode == 0 then
-        if SelectedRectID != LatestOverRect then
-            call BJDebugMsg("Mouse over " + I2S(SelectedRectID) + " rect.")
-        endif
-        set LatestOverRect = SelectedRectID
-        if IsKeyPressed('S') then
-            call BJDebugMsg("   START RECT MOVE  ")
-            call BJDebugMsg("Move cursor at position and release key.")
-            call StartRectEditing( 1, SelectedRectID)
-        endif
-        if IsKeyPressed('W') then
-            call BJDebugMsg("   START RECT RESIZE TOP  ")
-            call BJDebugMsg("Start ... Move cursor at position and release key.")
-            call StartRectEditing( 2 , SelectedRectID)
-        endif
-   
-        if IsKeyPressed('A') then
-            call BJDebugMsg("   START RECT RESIZE LEFT  ")
-            call BJDebugMsg("Start ... Move cursor at position and release key.")
-            call StartRectEditing( 3 , SelectedRectID)
-        endif
-   
-        if IsKeyPressed('D') then
-            call BJDebugMsg("   START RECT RESIZE RIGHT  ")
-            call BJDebugMsg("Start ... Move cursor at position and release key.")
-            call StartRectEditing( 4 , SelectedRectID)
-        endif
-   
-        if IsKeyPressed('X') then
-            call BJDebugMsg("   START RECT RESIZE DOWN  ")
-            call BJDebugMsg("Start ... Move cursor at position and release key.")
-            call StartRectEditing( 5 , SelectedRectID)
-        endif
-   
-    elseif not(RegionEditMode == 0) then
-        if IsKeyPressed('W') or IsKeyPressed('A') or IsKeyPressed('S') or IsKeyPressed('D') or IsKeyPressed('X') then
-            return
-        endif
-   
-        set CurrentMouseX = GetMouseX( )
-        set CurrentMouseY = GetMouseY( )
-   
-        set AddX = CurrentMouseX - LatestMouseX
-        set AddY = CurrentMouseY - LatestMouseY
-   
-        call AddRectCoordsByType(LatestSelectRect,AddX,AddY, RegionEditMode)
-   
-        set RegionEditMode = 0
-    endif
-
-endfunction
-
-function TestRectEditor takes nothing returns nothing
-    local timer t = CreateTimer( )
-    call TimerStart(t,0.2,true,function PrintMouseLocation)
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
-    call RectHook(GetRandomReal(-500,500),GetRandomReal(-500,500),GetRandomReal(-1000,1000),GetRandomReal(-1000,1000))
- 
-endfunction
-
-
-function TestPlayerMute takes boolean pMute, player p, string playername returns nothing
-    if pMute then
-        call MutePlayer( playername )
-    else
-        call UnMutePlayer( playername )
-    endif
 endfunction
 
 function ReadEAX takes nothing returns integer
@@ -5941,7 +5861,7 @@ function GJ_SaveLastDmg127a takes nothing returns boolean
         set GJ_LastDamageType=ReadEBP_offset(0x3F0)
     endif
     return true
-endfunction 
+endfunction
 
 function LockOrder takes integer id, boolean IsNeedLock returns nothing
 
@@ -6176,8 +6096,7 @@ function TestBlockOrders takes nothing returns nothing
     call ExecuteFunc("UnLockOrder6")
     call ExecuteFunc("UnLockOrder7")
     call ExecuteFunc("UnLockOrder8")
- 
- 
+
 endfunction
 
 function StartAbilityCD takes integer pAbility, real cd returns nothing
@@ -6257,7 +6176,7 @@ function GetUnitIllusionModifier takes unit u, integer modifiertype returns real
     if cid < 1 then
         return 1.
     endif
-    set buffid=LoadInteger(HY,GetHandleId(u),'ills')
+    set buffid=LoadInteger(MemoryHacks_HY,GetHandleId(u),'ills')
     if buffid==0 then
         if GetUnitAbilityLevel(u,'B012')==1 then
             set buffid='B012'
@@ -6705,7 +6624,6 @@ function GetLightningAddressByID takes integer id returns integer
     return 0
 endfunction
 
-
 function GetGameAreaSizeLimit takes nothing returns real
     return cleanReal(indexToReal(Memory[(Memory[pGameClass3] + 0xF8)/4]))
 endfunction
@@ -6790,28 +6708,6 @@ function UpdateFogManual takes nothing returns nothing
     endif
 endfunction
 
-function BlockRealFogUpdate takes boolean block returns nothing
-    local integer oldprotection1
-    if FogUpdateBlocked then
-        set oldprotection1 = ChangeOffsetProtection(pFogUpdateBlockAddr*4,8,0x40)
-        if block then
-            call AddNewOffsetToRestore(pFogUpdateBlockAddr*4,ReadRealMemory(pFogUpdateBlockAddr*4))
-            call AddNewOffsetToRestore((pFogUpdateBlockAddr+1)*4,ReadRealMemory((pFogUpdateBlockAddr+1)*4))
-            set Memory[pFogUpdateBlockAddr] = pFogUpdateBlockAddrNew1
-            set Memory[pFogUpdateBlockAddr + 1] = pFogUpdateBlockAddrNew2
-        else
-            set Memory[pFogUpdateBlockAddr] = pFogUpdateBlockAddrOld1
-            set Memory[pFogUpdateBlockAddr + 1] = pFogUpdateBlockAddrOld2
-        endif
-        call ChangeOffsetProtection(pFogUpdateBlockAddr*4,8,oldprotection1)
-    else
-        set pFogUpdateBlockAddrOld1 = Memory[pFogUpdateBlockAddr]
-        set pFogUpdateBlockAddrOld2 = Memory[pFogUpdateBlockAddr + 1]
-        set FogUpdateBlocked = true
-        call BlockRealFogUpdate( block )
-    endif
-endfunction
-
 function GetChatEnv takes nothing returns integer
     local integer retval =   GetGameUIENV( ) + 0x174
     if retval > 0x174 then
@@ -6863,19 +6759,6 @@ endfunction
 function ReplaceStringValue takes string str, integer newstraddress, integer sizeof_realstr returns nothing
     local integer retaddr = SearchStringValueAddress(str)
     call CopyMemory(retaddr,newstraddress,sizeof_realstr)
-endfunction
-
-
-function ReplaceStringValueUNSAFE takes string str, integer newstraddress returns nothing
-    local integer retaddr = CallThisCallWith2Args(pSearchStringValue,pSearchStringAddr1,GetStringAddress(str))
-    if retaddr == 0 or ReadRealMemory( retaddr + 0x1C ) == 0 then
-        set retaddr = CallThisCallWith2Args(pSearchStringValue,pSearchStringAddr2,GetStringAddress(str))
-    endif
-    if retaddr == 0 or ReadRealMemory( retaddr + 0x1C ) == 0 then
-        return
-    endif
-    call AddNewOffsetToRestore(retaddr + 0x1C,ReadRealMemory(retaddr + 0x1C))
-    call WriteRealMemory(retaddr + 0x1C, newstraddress)
 endfunction
 
 function SimulateAttackInstance takes unit u, unit target returns nothing
@@ -7130,6 +7013,7 @@ endfunction
 // in case if one thread being interrupted by another
 // (midwhile calling some func you deal damage to the unit, and you have ON_DAMAGE
 // trigger which runs some function as well, trashing this memory) it will end up with fatal for sure.
+
 function UnstuckWindwalkAbilities takes unit u, integer id returns nothing
     local integer a=GetUnitAbilityLevel(u,id)
     if a>0 then
@@ -7366,4 +7250,13 @@ function IsUnitSharedVisionToPlayer takes unit u, player p returns boolean
         return IsFlagBitSet(ReadRealMemory(a+0x14C),Player2Flag(p))
     endif
     return false
+endfunction
+
+function JassLog takes string textLog returns nothing
+    if pJassLog == 0 then
+        set pJassLog = GetModuleProcAddress(EXTRADLLNAME, "JassLog")
+    endif
+    if pJassLog != 0 then
+        call CallStdcallWith1Args(pJassLog,GetStringAddress(textLog))
+    endif
 endfunction

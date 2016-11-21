@@ -3,11 +3,15 @@
 import datetime, time, sys, platform
 
 def log(string):
-    st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-    line = "[" + st + "] " + string 
-    print line
-    with open('logs\\MemoryHackInstaller.txt', 'a') as file:
-        file.write(line + "\n")
+    try:
+        st = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        line = "[" + st + "] " + string 
+        print line
+        with open('logs\\MemoryHackInstaller.txt', 'a') as file:
+            file.write(line + "\n")
+    except:
+        print "log failed"
+        pass
 
 def CloseMPQIfValid(mpq):
     if mpq != None:
@@ -17,8 +21,11 @@ def CloseMPQIfValid(mpq):
 print "\n[    JASS MEMORY HACK INSTALLER     ]\n        by TriggerHappy\n"
 
 # Delete previous log file
-with open('logs\\MemoryHackInstaller.txt', 'w') as file:
-    file.write('')
+try:
+    with open('logs\\MemoryHackInstaller.txt', 'w') as file:
+        file.write('')
+except:
+    pass
 
 log("Started running")
 
@@ -26,11 +33,14 @@ ostype = platform.system()
 
 if (ostype == "Windows"):
     from sfmpq import * 
+    print "yes"
 elif (ostype == "Linux"):
     #from stormlib import * 
 
     log("Linux is not yet supported, exiting...")
-
+    sys.exit(0)
+else:
+    log("Unsupported OS")
     sys.exit(0)
 
 log("Imported modules")
@@ -43,16 +53,16 @@ if __name__ == '__main__':
         log("exit 1")
         sys.exit(0)
 
-    if (len(sys.argv) >= 3):
-        path = sys.argv[2]
-
     action = 1
-    if (len(sys.argv) >= 4):
-        action = sys.argv[3]
+    if (len(sys.argv) >= 3):
+        action = sys.argv[2]
     try:
         action = int(action)
     except:
         pass
+
+    if (len(sys.argv) >= 4):
+        path = sys.argv[3] + "\\"
 
     mapfile = sys.argv[1]
 
@@ -124,6 +134,7 @@ if __name__ == '__main__':
         done["globals"]     = False
         done["endglobals"]  = False
         done["main"]        = False
+        done["mapname"]     = False
 
         # Check if the script already has the api
         if ("l__bytecode" in original):
@@ -150,23 +161,23 @@ if __name__ == '__main__':
                 if (not done["globals"] and trimmed == "globals"):
                     log("Inserting globals")
 
-                    output += line + globalvars
+                    output += line + globalvars + "\n"
                     done["globals"] = True
                     count+=1
                 elif not done["endglobals"] and trimmed == "endglobals":
                     log("Inserting functions")
 
-                    output += "\n" + line + "\n" + functions
+                    output += "\n" + line + "\n" + functions + "\n"
                     done["endglobals"] = True
                     count+=1
                 elif not done["main"] and trimmed == "functionmaintakesnothingreturnsnothing": 
                     log("Appending to main function")
 
-                    output += line + mainfunc
+                    output += line + mainfunc + "\n"
                     done["main"] = True
                     count+=1
                 else:
-                    output += line
+                    output += line.rstrip() + "\n"
 
             # Undo JassHelper trick
             elif (action == 2):
@@ -179,7 +190,7 @@ if __name__ == '__main__':
                     output += functions
                     dontcopy=False
                 elif (dontcopy == False):
-                    output += line +"\n"
+                    output += line.rstrip() + "\n"
 
         # JassHelper moves these below the globals block, so we remove them and push to top
         if (action == 2):

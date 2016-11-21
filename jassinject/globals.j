@@ -1,29 +1,19 @@
-    integer TempInteger=0
-    integer Temp_GetSomeAdd1=0
-    integer Temp_GetSomeAdd2=0
-    integer DamageIncrementer=0
-    real array DamageValues
-    integer array DamageAttackTypes
-    integer array DamageDamageTypes
-    player LocalPlayer=null
-    hashtable TempHash=InitHashtable()
-    hashtable RectData = InitHashtable()
-    hashtable HY=InitHashtable()
-    boolean IsL1ch=true//used in "echo" function to display debug messages
  
-    boolean array WidescreenState
-    real GJ_LastDmg=0//outdated yet could be useful
+    string triggerhappy_MapName="Not set." // requires my preprocessor, not a memory hack
+
+    hashtable MemoryHacks_RectData  = InitHashtable()
+    hashtable MemoryHacks_HY        = InitHashtable()
+
+    real GJ_LastDmg=0 //outdated yet could be useful
     integer GJ_LastDamageType=0
     integer GJ_LastAttackType=0
  
     hashtable ObjectDataPointersTable=InitHashtable()
  
-    timer SuperTextPrinter_Timer=null
-    hashtable AbilitiesHashtable=InitHashtable()
- 
-    integer testFunctionCount = 0
-    integer latestAddress1 = 0
-    integer latestAddress2 = 0
+    timer SuperTextPrinter_Timer = null
+    hashtable AbilitiesHashtable = InitHashtable()
+
+    integer MemoryHacks_FunctionCount = 0
 
     integer array Ascii__Ints
     string array Ascii__Chars
@@ -32,9 +22,7 @@
     integer l__Int
     string l__Str
     boolean l__Bool
- 
-    constant string dotaconfigfle="config.dota"
- 
+
     integer array l__Array
  
     string array HexNumber__Chars
@@ -48,11 +36,9 @@
     integer pUnitData
     integer pAbilityData
  
-    constant gametype GAME_TYPE_ALL= ConvertGameType(0xFFFFFFFF)
+    constant gametype GAME_TYPE_ALL = ConvertGameType(0xFFFFFFFF)
  
-    integer array H
-    trigger l__library_init
- 
+    integer array MemoryHacks_H
  
     // For SetUnitFlags_2 (unit+0x20)
     constant integer UNIT_VISIBLED_TO_ALL         = 0x10
@@ -144,18 +130,6 @@
     integer pConvertUnitsOffset=0
     integer pLeaderboardSetItemLabelColor=0
  
-    integer pSetHPBarColorForPlayer=0
-    integer pSetHPBarXScaleForPlayer=0
-    integer pSetHPBarYScaleForPlayer=0
- 
-    integer pSetHPCustomHPBarUnit=0
- 
- 
-    integer pSetMPBarXScaleForPlayer=0
-    integer pSetMPBarYScaleForPlayer=0
-    integer pSetMPBarYOffsetForPlayer=0
- 
- 
     integer pExportFromMpq=0
     integer pGetFrameItemAddress=0
     integer pGetFrameSkinAddress=0
@@ -167,7 +141,6 @@
     integer pPacketClass=0
     integer pPacketSend=0
  
- 
     integer pPingMinimapOffset=0
     integer pPingMinimapExOffset=0
  
@@ -178,7 +151,6 @@
  
     integer pFindWindowA=0
     integer pMessageBoxA=0
-    integer pGetAsyncKeyState=0
     integer pWritePrivateProfileStringA=0
     integer pGetPrivateProfileStringA=0
     integer pLoadLibraryA=0
@@ -271,12 +243,6 @@
     integer pFogUpdateBlockAddrNew1=0
     integer pFogUpdateBlockAddrNew2=0
  
-    integer pGetLatestDownloadedString = 0
-    integer pGetDownloadStatus = 0
-    integer pSaveNewMapFromUrl = 0
-    integer pGetDownloadProgress = 0
-    integer pGetCurrentMapDir = 0
- 
     integer pStartAbilityCD=0
  
     integer pSendCommandWithoutTarget
@@ -287,20 +253,11 @@
     integer AllianceLocker = 0
     boolean NotLockedAllianceOutput = true
  
-    integer pMutePlayer=0
-    integer pUnMutePlayer=0
- 
-    integer pSetWidescreenFixState=0
-    integer pSetCustomFovFix=0
- 
-    boolean EXTRADLLLOADED = false
- 
     integer RegionEditMode = 0
     real LatestMouseX = 0.
     real LatestMouseY = 0.
     integer LatestSelectRect = 0
     integer LatestOverRect = 0
- 
  
     integer gl_hRectID = 0
  
@@ -325,12 +282,8 @@
     integer pSimulateAttackInstance
     integer pGameTime
  
-    integer pToggleForcedSubSelection=0
-    integer pToggleBlockKeyAndMouseEmulation=0
-    integer pToggleClickHelper=0
- 
     integer pSetStunToUnitTRUE
-    integer    pSetStunToUnitFALSE
+    integer pSetStunToUnitFALSE
  
     integer pReservedMemoryForSystemTime
     integer pGetLocalTime=0
@@ -342,8 +295,6 @@
  
     integer pUpdateUnitsSpeedCurrent
  
-    integer pSendMessageToChat=0
- 
     integer pCastSilenceToTarget
     integer pCastAbility=0
  
@@ -351,21 +302,10 @@
  
     integer pItemDropOrderTriggerFix=0
  
-    integer pFixModelCollisionSphere=0
- 
-    integer pGetOrLoadFile
-    integer pApplyTerrainFilterDirectly=0
-    integer pSetMainFuncWork=0
-    integer pFixModelTexturePath=0
- 
     integer StoreIntegerOffset = 0
     integer StoreIntegerUnlocker = 0
     boolean StoreIntegerLocked = false
- 
-    integer pPatchModel = 0
-    integer pChangeAnimationSpeed = 0
-    integer pSetSequenceValue = 0
-    integer pRedirectFile = 0
+
     integer pReservedMemoryForMissileHandler=0
     integer pReservedMemoryForDamageHandler=0
     integer pUnitVtable = 0
